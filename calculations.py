@@ -27,7 +27,7 @@ r_arr = np.array([]) # Initialising an empty numpy array to store r
 sum_table = pd.DataFrame(columns=COLUMNS)
 print(sum_table)
 
-for cycle in range(0, 24):  # For each orbit of the moon in 1098 years
+for cycle in range(0, 224):  # For each orbit of the moon in 1098 years
     for phase in range(0, 8):  # For each of 8 points we calculate in each complete rotation
         time = LUNAR_PERIOD * FRACTION_OF_ORBIT[phase] + cycle * LUNAR_PERIOD # Time passed, t
 
@@ -77,7 +77,7 @@ for cycle in range(0, 24):  # For each orbit of the moon in 1098 years
         sum_table = pd.concat([sum_table, new_df_row])
 
 # Save to excel file
-# sum_table.to_excel("sum_table.xlsx") 
+sum_table.to_excel("sum_table.xlsx") 
 
 print(sum_table)
 
@@ -105,4 +105,5 @@ def annot_max(x,y):
 
 annot_max(np.array(sum_table["Time"]), r_arr)
 
+# plt.savefig("fig_r.png", dpi=3200, bbox_inches="tight", pad_inches=0.3)
 plt.show()
