@@ -10,7 +10,7 @@ ECCENTRICITY = 0.0549
 SEMI_MAJOR_AXIS = 0.3844 * m.pow(10, 6)
 RATE_OF_APS_PREC = 2.2496 * m.pow (10, -8) # Rate of apsidal precession
 ORBITAL_INCLINE = np.deg2rad(5.145) # Convert incline to radians
-RATE_OF_NODAL_PREC = -1.0704 * m.pow (10, -8) # Rate of nodal precession
+RATE_OF_NODAL_PREC = 1.0704 * m.pow (10, -8) # Rate of nodal precession
 
 # Omega values taken from table 1
 OMEGA_VALUES = [0.27594, 1.6804, 2.3935, np.pi, 3.8530, 4.602809, 5.4162866, 0]
@@ -25,9 +25,8 @@ r_arr = np.array([]) # Initialising an empty numpy array to store r
 
 # Initialising a table for data storing
 sum_table = pd.DataFrame(columns=COLUMNS)
-print(sum_table)
 
-for cycle in range(0, 224):  # For each orbit of the moon in 1098 years
+for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
     for phase in range(0, 8):  # For each of 8 points we calculate in each complete rotation
         time = LUNAR_PERIOD * FRACTION_OF_ORBIT[phase] + cycle * LUNAR_PERIOD # Time passed, t
 
@@ -102,8 +101,9 @@ def annot_max(x,y):
                          textcoords="offset points", 
                          xytext=(0,10), 
                          ha='center')
+            
+            
 
 annot_max(np.array(sum_table["Time"]), r_arr)
 
-# plt.savefig("fig_r.png", dpi=3200, bbox_inches="tight", pad_inches=0.3)
 plt.show()
