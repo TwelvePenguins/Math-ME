@@ -18,7 +18,7 @@ OMEGA_VALUES = [0.27594, 1.6804, 2.3935, np.pi, 3.8530, 4.602809, 5.4162866, 0]
 FRACTION_OF_ORBIT = [fr(1, 8), fr(1, 4), fr(3, 8), fr(1, 2), fr(5, 8), fr(3, 4), fr(7, 8), 1]
 # Column title for summary table initialised below
 COLUMNS = ["Cycle", "Phase", "Time",
-           "Spherical Coordinates", "Cartesian Coordinates", "Verify"]
+           "Distance", "Right Ascension", "Declination"]
 
 # Arrays created to store plotting data
 r_arr = np.array([]) # Initialising an empty numpy array to store r 
@@ -38,37 +38,16 @@ for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
 
         r_arr = np.append(r_arr, r) # add r to the r_arr
 
-        spherical_coords = [] # Temporary variable to store spherical coords
-        spherical_coords.append(r)
-        spherical_coords.append(omega)
-        spherical_coords.append(phi)
-
-        x = round(r * np.sin(phi) * np.cos(omega), 5)
-        y = round(r * np.sin(phi) * np.sin(omega), 5)
-        z = round(r * np.cos(phi), 5)
-        omega = round(omega, 5)
-
-        cartesian_coords = []
-        cartesian_coords.append(x)
-        cartesian_coords.append(y)
-        cartesian_coords.append(z)
-
         iteration = (phase + 1) + cycle * 8 # Which iteration produced these results
-
-        if round(np.sqrt(m.pow(x, 2) + m.pow(y, 2) + m.pow(z, 2)), 5) == r :
-            verification_status = True
-        else: 
-            verification_status = False
-
 
         new_df_row = pd.DataFrame(
             {
             "Cycle": cycle, 
             "Phase": phase + 1, 
             "Time": time, 
-            "Spherical Coordinates": [spherical_coords], 
-            "Cartesian Coordinates": [cartesian_coords], 
-            "Verify": verification_status
+            "Distance": r,
+            "Right Ascension": omega, 
+            "Declination": phi
             }, 
             index=[iteration]
         )
@@ -102,7 +81,7 @@ def annot_max(x,y):
                          xytext=(0,10), 
                          ha='center')
             
-            
+
 
 annot_max(np.array(sum_table["Time"]), r_arr)
 
