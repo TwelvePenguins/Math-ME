@@ -18,7 +18,7 @@ OMEGA_VALUES = [0.27594, 1.6804, 2.3935, np.pi, 3.8530, 4.602809, 5.4162866, 0]
 FRACTION_OF_ORBIT = [fr(1, 8), fr(1, 4), fr(3, 8), fr(1, 2), fr(5, 8), fr(3, 4), fr(7, 8), 1]
 # Column title for summary table initialised below
 COLUMNS = ["Cycle", "Phase", "Time",
-           "Distance", "Right Ascension", "Declination"]
+           "Distance", "Polar Angle", "Azimuth Angle"]
 
 # Arrays created to store plotting data
 r_arr = np.array([]) # Initialising an empty numpy array to store r 
@@ -46,8 +46,8 @@ for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
             "Phase": phase + 1, 
             "Time": time, 
             "Distance": r,
-            "Right Ascension": omega, 
-            "Declination": phi
+            "Polar Angle": omega, 
+            "Azimuth Angle": phi
             }, 
             index=[iteration]
         )
