@@ -18,7 +18,7 @@ OMEGA_VALUES = [0.27594, 1.6804, 2.3935, np.pi, 3.8530, 4.602809, 5.4162866, 0]
 FRACTION_OF_ORBIT = [fr(1, 8), fr(1, 4), fr(3, 8), fr(1, 2), fr(5, 8), fr(3, 4), fr(7, 8), 1]
 # Column title for summary table initialised below
 COLUMNS = ["Cycle", "Phase", "Time",
-           "Distance", "Polar Angle", "Azimuth Angle"]
+           "Distance", "Azimuth Angle", "Beta", "Polar Angle"]
 
 # Arrays created to store plotting data
 r_arr = np.array([]) # Initialising an empty numpy array to store r 
@@ -32,7 +32,7 @@ for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
 
         omega = OMEGA_VALUES[phase]
         r = round((SEMI_MAJOR_AXIS * (1 - m.pow(ECCENTRICITY, 2))) / (1 + ECCENTRICITY * np.cos(omega - RATE_OF_APS_PREC * time)), 5) # Equation 2.2
-        beta = np.arcsin(-np.sin(ORBITAL_INCLINE) * (np.sin(RATE_OF_NODAL_PREC * time) * np.cos(omega) + np.cos(RATE_OF_NODAL_PREC * time) * np.sin(omega)))
+        beta = np.arcsin(np.sin(ORBITAL_INCLINE) * (np.sin(RATE_OF_NODAL_PREC * time) * np.cos(omega) + np.cos(RATE_OF_NODAL_PREC * time) * np.sin(omega)))
         # print(beta)
         phi = round((fr(1, 2) * np.pi) - beta, 5)
 
@@ -46,8 +46,9 @@ for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
             "Phase": phase + 1, 
             "Time": time, 
             "Distance": r,
-            "Polar Angle": omega, 
-            "Azimuth Angle": phi
+            "Azimuth Angle": phi,
+            "Beta": beta, 
+            "Polar Angle": omega
             }, 
             index=[iteration]
         )
