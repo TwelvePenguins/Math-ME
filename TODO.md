@@ -1,2 +1,2 @@
-1. Fix the annotation function
-2. Add verification for error
+1. Fix the annotation function - not labelling multiple, identifying wrong maximum
+2. Experiment with beta function

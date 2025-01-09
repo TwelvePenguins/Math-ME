@@ -33,7 +33,6 @@ for cycle in range(0, 241):  # For each orbit of the moon in 1098 years
         omega = OMEGA_VALUES[phase]
         r = round((SEMI_MAJOR_AXIS * (1 - m.pow(ECCENTRICITY, 2))) / (1 + ECCENTRICITY * np.cos(omega - RATE_OF_APS_PREC * time)), 5) # Equation 2.2
         beta = np.arcsin(np.sin(ORBITAL_INCLINE) * (np.sin(RATE_OF_NODAL_PREC * time) * np.cos(omega) + np.cos(RATE_OF_NODAL_PREC * time) * np.sin(omega)))
-        # print(beta)
         phi = round((fr(1, 2) * np.pi) - beta, 5)
 
         r_arr = np.append(r_arr, r) # add r to the r_arr
@@ -61,29 +60,58 @@ sum_table.to_excel("sum_table.xlsx")
 print(sum_table)
 
 # Plot with matplotlib
-fig_r = plt.figure()
-axes_t = fig_r.add_subplot()
 
-fig_r = plt.plot(sum_table["Time"], r_arr)
-fig_r = plt.ylabel("Lunar straight line distance from Earth / km")
-fig_r = plt.xlabel("Time / s")
+def plot_graph(key: str): 
+    y_label = ""
+    key_array = sum_table[key]
 
-def annot_max(x,y):
-    ymax = y.max()
+    fig_r = plt.figure()
+    fig_r.add_subplot()
 
-    for i in y: 
-        if i == ymax: 
-            xmax = x[np.argmax(i)]
-            text= "x={:.3f}, y={:.3f}".format(xmax, ymax)
+    fig_r = plt.plot(sum_table["Time"], key_array)
+    fig_r = plt.xlabel("Time / s")
+    fig_r = plt.ylabel(y_label)
+
+    if key == "Distance": 
+        y_label = "Lunar straight line distance from Earth / km"
+    elif key == "Polar Angle": 
+        y_label = "Polar Angle / radians"
+    elif key == "Azimuth Angle": 
+        y_label = "Azimuth Angle / radians"
+    
+    max_index = np.argmax(key_array)
+    y_max = key_array[max_index]
+
+    for i in range(0, len(key_array) - 1):
+        if key_array.iloc[key_array.index[i]] == y_max: 
+            print(key_array[i])
+            x_max = sum_table["Time"].iloc[sum_table.index[i]]
+            text= "x={:.3f}, y={:.3f}".format(x_max, y_max)
 
             plt.annotate(text, 
-                         (xmax, ymax), 
+                         (x_max, y_max), 
                          textcoords="offset points", 
                          xytext=(0,10), 
                          ha='center')
+    
+    plt.show()
+
+
+plot_graph("Distance")
+# def annot_max(x,y):
+#     ymax = y
+
+#     for i in y: 
+#         if i == ymax: 
+#             xmax = x[np.argmax(i)]
+#             text= "x={:.3f}, y={:.3f}".format(xmax, ymax)
+
+#             plt.annotate(text, 
+#                          (xmax, ymax), 
+#                          textcoords="offset points", 
+#                          xytext=(0,10), 
+#                          ha='center')
             
 
 
-annot_max(np.array(sum_table["Time"]), r_arr)
-
-plt.show()
+# annot_max(np.array(sum_table["Time"]), r_arr)
