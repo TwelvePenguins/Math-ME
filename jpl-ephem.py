@@ -27,7 +27,6 @@ def get_moon(time_input: list, attribute: str): # Returns dataframe of the posit
     longitude_offset = coordinates.get_body("moon", Time(TIME_ZERO, format="iso", scale="utc"), ephemeris="de432s")
     longitude_offset = longitude_offset.transform_to(coordinates.GeocentricMeanEcliptic())
     longitude_offset = np.deg2rad(longitude_offset.lon.value)
-    print(longitude_offset)
 
     for seconds in time_input: 
 
@@ -64,17 +63,3 @@ jpl_ephem = pd.concat([jpl_distance, jpl_pol, jpl_az], axis=1, join="inner") # C
 jpl_ephem = jpl_ephem.T.drop_duplicates().T # Drop duplicated columns
 
 jpl_ephem.to_excel("jpl_ephem_transformed.xlsx")
-
-# jpl_ephem = pd.read_excel("jpl_ephem_transformed.xlsx")
-
-# jpl_ephem_norm = pd.read_excel("jpl_ephem.xlsx")
-
-# fig_r = plt.figure()
-# axes_t = fig_r.add_subplot()
-
-# fig_r = plt.plot(jpl_ephem["Time"], jpl_ephem["Polar Angle"])
-# fig_r = plt.plot(sum_table["Time"], sum_table["Polar Angle"])
-# fig_r = plt.ylabel("Lunar straight line distance from Earth / km")
-# fig_r = plt.xlabel("Time / s")
-
-# plt.show()

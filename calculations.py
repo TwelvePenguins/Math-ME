@@ -60,7 +60,6 @@ sum_table.to_excel("sum_table.xlsx")
 print(sum_table)
 
 # Plot with matplotlib
-
 def plot_graph(key: str): 
     y_label = ""
     key_array = sum_table[key]
@@ -79,39 +78,36 @@ def plot_graph(key: str):
     elif key == "Azimuth Angle": 
         y_label = "Azimuth Angle / radians"
     
-    max_index = np.argmax(key_array)
-    y_max = key_array[max_index]
+    # Labelling the maximum
+    y_max = max(key_array)
 
     for i in range(0, len(key_array) - 1):
-        if key_array.iloc[key_array.index[i]] == y_max: 
-            print(key_array[i])
-            x_max = sum_table["Time"].iloc[sum_table.index[i]]
+        if key_array.iloc[i] == y_max: 
+            print(key_array.iloc[i])
+            x_max = sum_table["Time"].iloc[i]
             text= "x={:.3f}, y={:.3f}".format(x_max, y_max)
-
+            plt.plot([x_max], [y_max], "o")
             plt.annotate(text, 
                          (x_max, y_max), 
                          textcoords="offset points", 
                          xytext=(0,10), 
                          ha='center')
+            
+    # Labelling the minimum
+    y_min = min(key_array)
+
+    for i in range(0, len(key_array) - 1):
+        if key_array.iloc[i] == y_min: 
+            print(key_array.iloc[i])
+            x_min = sum_table["Time"].iloc[i]
+            text= "x={:.3f}, y={:.3f}".format(x_min, y_min)
+            plt.plot([x_min], [y_min], "o")
+            plt.annotate(text, 
+                         (x_min, y_min), 
+                         textcoords="offset points", 
+                         xytext=(0,-20), 
+                         ha='center')
     
     plt.show()
 
-
 plot_graph("Distance")
-# def annot_max(x,y):
-#     ymax = y
-
-#     for i in y: 
-#         if i == ymax: 
-#             xmax = x[np.argmax(i)]
-#             text= "x={:.3f}, y={:.3f}".format(xmax, ymax)
-
-#             plt.annotate(text, 
-#                          (xmax, ymax), 
-#                          textcoords="offset points", 
-#                          xytext=(0,10), 
-#                          ha='center')
-            
-
-
-# annot_max(np.array(sum_table["Time"]), r_arr)
