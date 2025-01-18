@@ -64,19 +64,19 @@ def plot_graph(key: str):
     y_label = ""
     key_array = sum_table[key]
 
-    fig_r = plt.figure()
-    fig_r.add_subplot()
-
-    fig_r = plt.plot(sum_table["Time"], key_array)
-    fig_r = plt.xlabel("Time / s")
-    fig_r = plt.ylabel(y_label)
-
     if key == "Distance": 
         y_label = "Lunar straight line distance from Earth / km"
     elif key == "Polar Angle": 
         y_label = "Polar Angle / radians"
     elif key == "Azimuth Angle": 
         y_label = "Azimuth Angle / radians"
+
+    fig_r = plt.figure()
+    fig_r.add_subplot()
+
+    fig_r = plt.plot(sum_table["Time"], key_array)
+    fig_r = plt.xlabel("Time / s")
+    fig_r = plt.ylabel(y_label)
     
     # Labelling the maximum
     y_max = max(key_array)
